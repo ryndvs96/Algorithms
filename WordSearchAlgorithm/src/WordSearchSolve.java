@@ -46,17 +46,23 @@ public class WordSearchSolve {
 
 		for (int i = 1; i <= 8; i++) {
 			String direction = directions[i - 1];
-			for (int j = 0; j < wordList.size(); j++) {
-				String currentWord = wordList.get(j);
-				if (direction.contains(currentWord)) {
-					int pos = direction.indexOf(currentWord);
-					solutions.add(getPoint(pos, i, currentWord));
-					wordList.remove(j);
-				}
-			}
+//			for (int j = 0; j < wordList.size(); j++) {
+//				String currentWord = wordList.get(j);
+//				if (direction.contains(currentWord)) {
+//					int pos = direction.indexOf(currentWord);
+//					solutions.add(getPoint(pos, i, currentWord));
+//					wordList.remove(j);
+//				}
+//			}
 		}
 
 		return solutions;
+	}
+	public static Object[] getTrie(ArrayList<String> wordList) {
+		// TODO
+		
+		return null;
+		
 	}
 	public static Point getPoint(int pos, int direction, String word) {
 		int i = 0;
@@ -73,30 +79,6 @@ public class WordSearchSolve {
 			j = (pos % n) - 1;
 			break;
 		case 4:
-			int iterations = 0;
-			int count = 0;
-			for (int k = 1; k <= n; k++, iterations++) {
-				count += k + 1;
-				if (count > pos) {
-					count -= (k + 1);
-					break;
-				}
-			}
-			for (int k = n - 1; k > 0; k--, iterations++) {
-				count += k + 1;
-				if (count > pos) {
-					count -= (k + 1);
-					break;
-				}
-			}
-			if (iterations < n) {
-				i = pos - count;
-				j = n - (iterations - i);
-			}
-			else {
-				j = pos - count;
-				i = iterations - j;
-			}
 		case 5:
 		case 6:
 			j = pos / n;
