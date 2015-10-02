@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class WordSearchSolve {
 	static ArrayList<String> wordList = new ArrayList<String>();
+	static boolean capital = true;
 	static int r = 10;
 	static char[][] grid = {
 			{'Z', 'W', 'N', 'X', 'J', 'B', 'A', 'I', 'A', 'W'}, 
@@ -27,98 +28,37 @@ public class WordSearchSolve {
 		wordList.add("BRIDGE");
 		wordList.add("STOOL");
 		wordList.add("MAP");
-		for (int i = 1; i < 9; i++) {
-			System.out.println(i + ": " + String.valueOf(direction(i)));
+		Object[] trie = getTrie(wordList);
+		for (int i = 0; i < trie.length; i++) {
+			Object obj = trie[i];
+			System.out.println(((char) (i + 65)) + " : " + obj);
 		}
 	}
 	public static ArrayList<Point> solve() {
 		ArrayList<Point> solutions = new ArrayList<Point>();
-		String[] directions = {
-				String.valueOf(direction(1)),
-				String.valueOf(direction(2)),
-				String.valueOf(direction(3)),
-				String.valueOf(direction(4)),
-				String.valueOf(direction(5)),
-				String.valueOf(direction(6)),
-				String.valueOf(direction(7)),
-				String.valueOf(direction(8))
-		};
 
-		for (int i = 1; i <= 8; i++) {
-			String direction = directions[i - 1];
-//			for (int j = 0; j < wordList.size(); j++) {
-//				String currentWord = wordList.get(j);
-//				if (direction.contains(currentWord)) {
-//					int pos = direction.indexOf(currentWord);
-//					solutions.add(getPoint(pos, i, currentWord));
-//					wordList.remove(j);
-//				}
-//			}
-		}
+
+
 
 		return solutions;
 	}
-	public static Object[] getTrie(ArrayList<String> wordList) {
-		// TODO
-		
-		return null;
-		
-	}
-	public static Point getPoint(int pos, int direction, String word) {
-		int i = 0;
-		int j = 0;
-		switch(direction) {
-		case 1:
-			pos = ((n * n) + n - 1) - pos;
-			j = pos / n;
-			i = (pos % n) - 1;
-			break;
-		case 2:
-		case 3:
-			i = pos / n;
-			j = (pos % n) - 1;
-			break;
-		case 4:
-		case 5:
-		case 6:
-			j = pos / n;
-			i = (pos % n) - 1;
-			break;
-		case 7:
-			pos = ((n * n) + n - 1) - pos;
-			i = pos / n;
-			j = (pos % i) - 1;
-			break;
-		case 8:
-		default:
-			i = 0;
-			j = 0;
-			break;
+	public static Object[] getTrie(ArrayList<String> wordList) { // O(n^2) it's limited by 8n^2
+		Object[] trie = new Object[26];
+		Object[] currentTrie;
+		for (String word : wordList) {
+			currentTrie = trie;
+			char[] wordChar = word.toCharArray();
+			for (int i = 0; i < wordChar.length - 1; i++) {
+				char c = wordChar[i];
+				int index = index(c);
+				if (currentTrie[index] == null) {
+					currentTrie[index] = new Object[26];
+				}
+				currentTrie = (Object[]) currentTrie[index];
+			}
+			currentTrie[index(wordChar[wordChar.length - 1])] = new Boolean(Boolean.TRUE);
 		}
-		return new Point(i, j, direction, word);
-	}
-	public static char[] direction(int direction) { 
-		// 1 = N, 2 = NE, 3 = E, etc. (clockwise)
-		switch (direction) {
-		case 1:	
-			return reverse(south(grid)); 
-		case 2:
-			return reverse(southWest(grid));
-		case 3:
-			return east(grid);
-		case 4:
-			return southEast(grid);
-		case 5:
-			return south(grid);
-		case 6:
-			return southWest(grid);
-		case 7:
-			return reverse(east(grid));
-		case 8: 
-			return reverse(southEast(grid));
-		default:
-			return east(grid);
-		}
+		return trie;
 	}
 	public static char[] east(char[][] grid) { 	// O(n^2)
 		char[] east = new char[(n * n) + n - 1]; // add n for the spaces
@@ -198,5 +138,8 @@ public class WordSearchSolve {
 			reverse[i] = forward[forward.length - 1 - i];
 		}
 		return reverse;
+	}
+	public static int index(char c) {
+		return capital ? c - 65 : c - 97;
 	}
 }
