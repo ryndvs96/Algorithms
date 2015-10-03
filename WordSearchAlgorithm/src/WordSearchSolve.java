@@ -60,84 +60,437 @@ public class WordSearchSolve {
 		}
 		return trie;
 	}
-	public static char[] east(char[][] grid) { 	// O(n^2)
-		char[] east = new char[(n * n) + n - 1]; // add n for the spaces
+	public static ArrayList<Point> east(char[][] grid, Object[] trie) {	// O(n^2)
+		ArrayList<Point> solutions = new ArrayList<Point>();
+		Object[] currentTrie;
+		String currentWord;
+		char currentChar;
 		for (int i = 0; i < n; i++) {
+			currentWord = "";
+			currentTrie = trie;
 			for (int j = 0; j < n; j++) {
-				east[(i * n) + j + i] = grid[i][j];
+				currentChar = grid[i][j];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(i, j, 3, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
 			} 
-			if (i != n - 1) {
-				east[(i + 1) * n + i] = ' ';
-			}
 		}
-		return east;
+		return solutions;
 	}
-	public static char[] south(char[][] grid) {	// O(n^2)
-		char[] south = new char[(n * n) + n - 1]; // add n for the spaces
+	public static ArrayList<Point> west(char[][] grid, Object[] trie) {	// O(n^2)
+		ArrayList<Point> solutions = new ArrayList<Point>();
+		Object[] currentTrie;
+		String currentWord;
+		char currentChar;
+		for (int i = n - 1; i >= 0; i--) {
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = n - 1; j >= 0; j--) {
+				currentChar = grid[i][j];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(i, j, 7, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			} 
+		}
+		return solutions;
+	}
+	public static ArrayList<Point> south(char[][] grid, Object[] trie) {	// O(n^2)
+		ArrayList<Point> solutions = new ArrayList<Point>();
+		Object[] currentTrie;
+		String currentWord;
+		char currentChar;
 		for (int i = 0; i < n; i++) {
+			currentWord = "";
+			currentTrie = trie;
 			for (int j = 0; j < n; j++) {
-				south[(i * n) + j + i] = grid[j][i];
+				currentChar = grid[j][i];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(i, j, 5, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
 			} 
-			if (i != n - 1) {
-				south[(i + 1) * n + i] = ' ';
-			}
 		}
-		return south;
+		return solutions;
 	}
-	public static char[] southEast(char[][] grid) {	// O(n^2)
-		char[] southEast = new char[(n * n) + (2 * n) - 2]; // add n for the spaces
-		int count = 0;
-		for (int i = 1; i < n; i++, count++) {
-			for (int j = 0; j < i; j++, count++) {
-				southEast[count] = grid[j][n - (i - j)];
-			}
-			southEast[count] = ' ';
+	public static ArrayList<Point> north(char[][] grid, Object[] trie) {	// O(n^2)
+		ArrayList<Point> solutions = new ArrayList<Point>();
+		Object[] currentTrie;
+		String currentWord;
+		char currentChar;
+		for (int i = n - 1; i >= 0; i--) {
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = n - 1; j >= 0; j--) {
+				currentChar = grid[j][i];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(i, j, 1, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			} 
 		}
-		for (int i = 0; i < n; i++, count++) {
-			southEast[count] = grid[i][i];
-		}
-		southEast[count] = ' ';
-		count++;
-		for (int i = n - 1; i > 0; i--, count++) {
-			for (int j = 0; j < i; j++, count++) {
-				southEast[count] = grid[n - (i - j)][j];
-			}
-			if (i != 1) {
-				southEast[count] = ' ';
-			}
-		}
-		return southEast;
+		return solutions;
 	}
-	public static char[] southWest(char[][] grid) {	// O(n^2)
-		char[] southWest = new char[(n * n) + (2 * n) - 2]; // add n for the spaces
-		int count = 0;
-		for (int i = 1; i < n; i++, count++) { 	// first half
-			for (int j = 0; j < i; j++, count++) {
-				southWest[count] = grid[j][i - j - 1];
+	public static ArrayList<Point> southEast(char[][] grid, Object[] trie) {	// O(n^2)
+		ArrayList<Point> solutions = new ArrayList<Point>();
+		Object[] currentTrie;
+		String currentWord;
+		char currentChar;
+		for (int i = 1; i < n; i++) {
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = 0; j < i; j++) {
+				currentChar = grid[j][n - (i - j)];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(j, n - (i - j), 4, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
 			}
-			southWest[count] = ' ';
 		}
-		for (int i = 0; i < n; i++, count++) { 	// middle
-			southWest[count] = grid[i][n - 1 - i];
-		}
-		southWest[count] = ' ';
-		count++;
-		for (int i = n - 1; i > 0; i--, count++) {	// second half
-			for (int j = 0; j < i; j++, count++) {
-				southWest[count] = grid[n - i + j][n - j - 1];
+		currentWord = "";
+		currentTrie = trie;
+		for (int i = 0; i < n; i++) {
+			currentChar = grid[i][i];
+			Object obj = currentTrie[index(currentChar)];
+			if (obj == null) {
+				currentWord = "";
+				currentTrie = trie;
+				continue;
 			}
-			if (i != 1) {
-				southWest[count] = ' ';
+			else {
+				currentWord += currentChar;
+				if (obj instanceof Boolean) {
+					obj = new Boolean(Boolean.FALSE);
+					solutions.add(new Point(i, i, 4, currentWord));
+					currentTrie = trie;
+				}
+				else {
+					currentTrie = (Object[]) obj;
+				}
 			}
 		}
-		return southWest;
+		for (int i = n - 1; i > 0; i--) {
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = 0; j < i; j++) {
+				currentChar = grid[n - (i - j)][j];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(n - (i - j), j, 4, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			}
+		}
+		return solutions;
 	}
-	public static char[] reverse(char[] forward) { // O(n^2) because the length is always ~n^2
-		char[] reverse = new char[forward.length];
-		for (int i = 0; i < forward.length; i++) {
-			reverse[i] = forward[forward.length - 1 - i];
+	public static ArrayList<Point> northWest(char[][] grid, Object[] trie) {	// O(n^2)
+		ArrayList<Point> solutions = new ArrayList<Point>();
+		Object[] currentTrie;
+		String currentWord;
+		char currentChar;
+		for (int i = n - 1; i >= 1; i--) {
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = i - 1; j >= 0; j--) {
+				currentChar = grid[j][n - (i - j)];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(j, n - (i - j), 4, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			}
 		}
-		return reverse;
+		currentWord = "";
+		currentTrie = trie;
+		for (int i = n - 1; i >= 0; i--) {
+			currentChar = grid[i][i];
+			Object obj = currentTrie[index(currentChar)];
+			if (obj == null) {
+				currentWord = "";
+				currentTrie = trie;
+				continue;
+			}
+			else {
+				currentWord += currentChar;
+				if (obj instanceof Boolean) {
+					obj = new Boolean(Boolean.FALSE);
+					solutions.add(new Point(i, i, 4, currentWord));
+					currentTrie = trie;
+				}
+				else {
+					currentTrie = (Object[]) obj;
+				}
+			}
+		}
+		for (int i = 1; i < n; i++) {
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = i - 1; j >= 0; j--) {
+				currentChar = grid[n - (i - j)][j];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(n - (i - j), j, 4, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			}
+		}
+		return solutions;
+	}
+	public static ArrayList<Point> southWest(char[][] grid, Object[] trie) {	// O(n^2)
+		ArrayList<Point> solutions = new ArrayList<Point>();
+		Object[] currentTrie;
+		String currentWord;
+		char currentChar;
+		for (int i = 1; i < n; i++) { 	// first half
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = 0; j < i; j++) {
+				currentChar = grid[j][i - j - 1];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(j, i - j - 1, 6, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			}
+		}
+		currentWord = "";
+		currentTrie = trie;
+		for (int i = 0; i < n; i++) { 	// middle
+			currentChar = grid[i][n - 1 - i];
+			Object obj = currentTrie[index(currentChar)];
+			if (obj == null) {
+				currentWord = "";
+				currentTrie = trie;
+				continue;
+			}
+			else {
+				currentWord += currentChar;
+				if (obj instanceof Boolean) {
+					obj = new Boolean(Boolean.FALSE);
+					solutions.add(new Point(i, n - 1 - i, 6, currentWord));
+					currentTrie = trie;
+				}
+				else {
+					currentTrie = (Object[]) obj;
+				}
+			}
+		}
+		for (int i = n - 1; i > 0; i--) {	// second half
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = 0; j < i; j++) {
+				currentChar = grid[n - i + j][n - j - 1];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(n - i + j, n - j - 1, 6, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			}
+		}
+		return solutions;
+	}
+	public static ArrayList<Point> northEast(char[][] grid, Object[] trie) {	// O(n^2)
+		ArrayList<Point> solutions = new ArrayList<Point>();
+		Object[] currentTrie;
+		String currentWord;
+		char currentChar;
+		for (int i = n - 1; i >= 1; i--) { 	// first half
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = i - 1; j >= 0; j--) {
+				currentChar = grid[j][i - j - 1];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(j, i - j - 1, 6, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			}
+		}
+		currentWord = "";
+		currentTrie = trie;
+		for (int i = n - 1; i >= 0; i--) { 	// middle
+			currentChar = grid[i][n - 1 - i];
+			Object obj = currentTrie[index(currentChar)];
+			if (obj == null) {
+				currentWord = "";
+				currentTrie = trie;
+				continue;
+			}
+			else {
+				currentWord += currentChar;
+				if (obj instanceof Boolean) {
+					obj = new Boolean(Boolean.FALSE);
+					solutions.add(new Point(i, n - 1 - i, 6, currentWord));
+					currentTrie = trie;
+				}
+				else {
+					currentTrie = (Object[]) obj;
+				}
+			}
+		}
+		for (int i = 1; i < n; i++) {	// second half
+			currentWord = "";
+			currentTrie = trie;
+			for (int j = i - 1; j >= 0; j--) {
+				currentChar = grid[n - i + j][n - j - 1];
+				Object obj = currentTrie[index(currentChar)];
+				if (obj == null) {
+					currentWord = "";
+					currentTrie = trie;
+					continue;
+				}
+				else {
+					currentWord += currentChar;
+					if (obj instanceof Boolean) {
+						obj = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(n - i + j, n - j - 1, 6, currentWord));
+						currentTrie = trie;
+					}
+					else {
+						currentTrie = (Object[]) obj;
+					}
+				}
+			}
+		}
+		return solutions;
 	}
 	public static int index(char c) {
 		return capital ? c - 65 : c - 97;
