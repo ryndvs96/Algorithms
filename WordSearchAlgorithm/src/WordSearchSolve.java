@@ -29,18 +29,24 @@ public class WordSearchSolve {
 		wordList.add("STOOL");
 		wordList.add("MAP");
 		Object[] trie = getTrie(wordList);
-		for (int i = 0; i < trie.length; i++) {
-			Object obj = trie[i];
-			System.out.println(((char) (i + 65)) + " : " + obj);
-		}
-	}
-	public static ArrayList<Point> solve() {
 		ArrayList<Point> solutions = new ArrayList<Point>();
-
-
-
-
-		return solutions;
+		solutions.addAll(east(grid, trie));
+		solutions.addAll(west(grid, trie));
+		solutions.addAll(north(grid, trie));
+		solutions.addAll(south(grid, trie));
+		solutions.addAll(northWest(grid, trie));
+		solutions.addAll(southEast(grid, trie));
+		solutions.addAll(southWest(grid, trie));
+		solutions.addAll(northEast(grid, trie));
+		print(solutions);
+	}
+	public static void print(ArrayList<Point> solutions) {
+		for (Point p : solutions) {
+			String str = "";
+			str += p.word + ": ";
+			str += "(" + p.i + ", " + p.j + ") " + p.direction;
+			System.out.println(str);
+		}
 	}
 	public static Object[] getTrie(ArrayList<String> wordList) { // O(n^2) it's limited by 8n^2
 		Object[] trie = new Object[26];
@@ -79,8 +85,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(i, j, 3, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(i, j, 3, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -110,8 +118,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(i, j, 7, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(i, j, 7, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -141,8 +151,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(i, j, 5, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(j, i, 5, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -165,15 +177,31 @@ public class WordSearchSolve {
 				currentChar = grid[j][i];
 				Object obj = currentTrie[index(currentChar)];
 				if (obj == null) {
-					currentWord = "";
-					currentTrie = trie;
+					Object tempObj = trie[index(currentChar)];
+					if (tempObj != null) {
+						currentWord = "" + currentChar; // TODO
+						if (obj instanceof Boolean) {
+							if ((Boolean) obj) {
+								solutions.add(new Point(j, i, 1, currentWord));
+							}
+						}
+						else {
+							currentTrie = (Object[]) tempObj;
+						}
+					}
+					else {
+						currentWord = "";
+						currentTrie = trie;
+					}
 					continue;
 				}
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(i, j, 1, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(j, i, 1, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -203,8 +231,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(j, n - (i - j), 4, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(j, n - (i - j), 4, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -226,8 +256,10 @@ public class WordSearchSolve {
 			else {
 				currentWord += currentChar;
 				if (obj instanceof Boolean) {
-					obj = new Boolean(Boolean.FALSE);
-					solutions.add(new Point(i, i, 4, currentWord));
+					if ((Boolean) obj) {
+						currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(i, i, 4, currentWord));
+					}
 					currentTrie = trie;
 				}
 				else {
@@ -249,8 +281,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(n - (i - j), j, 4, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(n - (i - j), j, 4, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -280,8 +314,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(j, n - (i - j), 4, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(j, n - (i - j), 8, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -303,8 +339,10 @@ public class WordSearchSolve {
 			else {
 				currentWord += currentChar;
 				if (obj instanceof Boolean) {
-					obj = new Boolean(Boolean.FALSE);
-					solutions.add(new Point(i, i, 4, currentWord));
+					if ((Boolean) obj) {
+						currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(i, i, 8, currentWord));
+					}
 					currentTrie = trie;
 				}
 				else {
@@ -326,8 +364,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(n - (i - j), j, 4, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(n - (i - j), j, 8, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -357,8 +397,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(j, i - j - 1, 6, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(j, i - j - 1, 6, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -380,8 +422,10 @@ public class WordSearchSolve {
 			else {
 				currentWord += currentChar;
 				if (obj instanceof Boolean) {
-					obj = new Boolean(Boolean.FALSE);
-					solutions.add(new Point(i, n - 1 - i, 6, currentWord));
+					if ((Boolean) obj) {
+						currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(i, n - 1 - i, 6, currentWord));
+					}
 					currentTrie = trie;
 				}
 				else {
@@ -403,8 +447,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(n - i + j, n - j - 1, 6, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(n - i + j, n - j - 1, 6, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -434,8 +480,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(j, i - j - 1, 6, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(j, i - j - 1, 2, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
@@ -457,8 +505,10 @@ public class WordSearchSolve {
 			else {
 				currentWord += currentChar;
 				if (obj instanceof Boolean) {
-					obj = new Boolean(Boolean.FALSE);
-					solutions.add(new Point(i, n - 1 - i, 6, currentWord));
+					if ((Boolean) obj) {
+						currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+						solutions.add(new Point(i, n - 1 - i, 2, currentWord));
+					}
 					currentTrie = trie;
 				}
 				else {
@@ -480,8 +530,10 @@ public class WordSearchSolve {
 				else {
 					currentWord += currentChar;
 					if (obj instanceof Boolean) {
-						obj = new Boolean(Boolean.FALSE);
-						solutions.add(new Point(n - i + j, n - j - 1, 6, currentWord));
+						if ((Boolean) obj) {
+							currentTrie[index(currentChar)] = new Boolean(Boolean.FALSE);
+							solutions.add(new Point(n - i + j, n - j - 1, 2, currentWord));
+						}
 						currentTrie = trie;
 					}
 					else {
