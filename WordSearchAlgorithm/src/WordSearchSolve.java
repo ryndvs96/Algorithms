@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
@@ -34,7 +33,8 @@ public class WordSearchSolve {
 	public static void getWordList() {
 		try {
 			//Create object of FileReader
-			FileReader inputFile = new FileReader("C:\\Users\\Ryan\\git\\Algorithms\\WordSearchAlgorithm\\src\\wordList.txt");
+			String file = "";
+			FileReader inputFile = new FileReader(file);
 
 			//Instantiate the BufferedReader Class
 			BufferedReader bufferReader = new BufferedReader(inputFile);
@@ -56,7 +56,8 @@ public class WordSearchSolve {
 	public static void getGrid() {
 		try {
 			//Create object of FileReader
-			FileReader inputFile = new FileReader("C:\\Users\\Ryan\\git\\Algorithms\\WordSearchAlgorithm\\src\\grid.txt");
+			String file = "";
+			FileReader inputFile = new FileReader(file);
 
 			//Instantiate the BufferedReader Class
 			BufferedReader bufferReader = new BufferedReader(inputFile);
