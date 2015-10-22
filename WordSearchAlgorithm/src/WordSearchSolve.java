@@ -33,7 +33,7 @@ public class WordSearchSolve {
 	public static void getWordList() {
 		try {
 			//Create object of FileReader
-			String file = "";
+			String file = "/home/ryan/git/Algorithms/WordSearchAlgorithm/src/wordList.txt";
 			FileReader inputFile = new FileReader(file);
 
 			//Instantiate the BufferedReader Class
@@ -56,7 +56,7 @@ public class WordSearchSolve {
 	public static void getGrid() {
 		try {
 			//Create object of FileReader
-			String file = "";
+			String file = "/home/ryan/git/Algorithms/WordSearchAlgorithm/src/grid.txt";
 			FileReader inputFile = new FileReader(file);
 
 			//Instantiate the BufferedReader Class
@@ -119,11 +119,14 @@ public class WordSearchSolve {
 		}
 	}
 	public static void print(ArrayList<Point> solutions) {
+		int i = 1;
 		for (Point p : solutions) {
 			String str = "";
+			str += i + " ";
 			str += p.word + ": ";
 			str += "(" + p.i + ", " + p.j + ") " + p.direction;
 			System.out.println(str);
+			i++;
 		}
 	}
 	public static Object[] getTrie(ArrayList<String> wordList) { // O(n^2) it's limited by 8n^2

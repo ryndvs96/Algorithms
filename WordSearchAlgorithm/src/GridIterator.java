@@ -17,12 +17,12 @@ public class GridIterator<Type> implements Iterable<Type> {
 
 	            @Override
 	            public boolean hasNext() {
-	                return currentIndex < currentSize && arrayList[currentIndex] != null;
+	                return currentIndex; //< currentSize && arrayList[currentIndex] != null;
 	            }
 
 	            @Override
 	            public Type next() {
-	                return arrayList[currentIndex++];
+	                return arrayList[currentIndex++]; 
 	            }
 
 	            @Override
