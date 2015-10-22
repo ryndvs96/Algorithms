@@ -1,7 +1,7 @@
 
 public class Point {
 	public int i;
-	public int j;
+	public int j; // j
 	public String direction;
 	public String word;
 	public Point(int i, int j, int direction, String word) {
