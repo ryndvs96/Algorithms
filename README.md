@@ -2,6 +2,7 @@
 A collections of algorithms.
 
 Word Search Solver Algorithm:
+
 It took me a while to conceptualize how to go about solving a word search in efficient time. As most people would do, I first started with an algorithm that visits each point in the grid and checks all 8 directions from that point and checks every single direction against every single word to see if that word is there. As you can probably tell from that explination, it was depressingly slow. It's time was in a realm I would never want to visit. So I broke it down.
 
 Before I jump into this let me clarify some things:
