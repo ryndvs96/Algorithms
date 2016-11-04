@@ -33,7 +33,7 @@ public class WordSearchSolve {
 	public static void getWordList() {
 		try {
 			//Create object of FileReader
-			String file = "/home/ryan/git/Algorithms/WordSearchAlgorithm/src/wordList.txt";
+			String file = "C:\\Users\\Ryan\\git\\Algorithms\\WordSearchAlgorithm\\src\\wordList.txt";
 			FileReader inputFile = new FileReader(file);
 
 			//Instantiate the BufferedReader Class
@@ -56,7 +56,7 @@ public class WordSearchSolve {
 	public static void getGrid() {
 		try {
 			//Create object of FileReader
-			String file = "/home/ryan/git/Algorithms/WordSearchAlgorithm/src/grid.txt";
+			String file = "C:\\Users\\Ryan\\git\\Algorithms\\WordSearchAlgorithm\\src\\grid.txt";
 			FileReader inputFile = new FileReader(file);
 
 			//Instantiate the BufferedReader Class
@@ -64,7 +64,7 @@ public class WordSearchSolve {
 
 			String line;
 
-			n = 40;
+			n = 30;
 			grid = new char[n][n];
 			int i = 0;
 			int j = 0;
